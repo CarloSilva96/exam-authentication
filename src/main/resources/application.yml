@@ -1,0 +1,40 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      fail_on_empty_beans: false
+    locale: pt_BR
+    time-zone: America/Sao_Paulo
+  flyway:
+    enabled: true
+  application:
+    name: exam_authentication
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        types:
+          print:
+            banner: false
+        format_sql: true
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 5
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+
+  datasource:
+    url: jdbc:postgresql://@postgres.server@:@postgres.port@/@postgres.database@?reWriteBatchedInserts=true
+    username: @postgres.usr@
+    password: @postgres.pwd@
+
+security:
+  jwt:
+    token:
+      secret: ${JWT_SECRET:SECRET00135}
+      expiration_minutes: ${TIME_EXPIRATION:10}
