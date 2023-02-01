@@ -21,8 +21,6 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SecurityFilter extends OncePerRequestFilter {
-
-    private final HandlerExceptionResolver handlerExceptionResolver;
     private final JwtTokenService jwtTokenService;
     private final UserRepository userRepository;
 
@@ -33,20 +31,15 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var jwtToken = jwtTokenHeader(request);
         if (Optional.ofNullable(jwtToken).isPresent()) {
-            var userLogin = jwtTokenService.getUserLogin(jwtToken);
+            var userLogin = jwtTokenService.getValidateTokenAndGetUserLogin(jwtToken);
             if (Optional.ofNullable(userLogin).isPresent()) {
                 var user = userRepository.getUserByLogin(userLogin);
                 setAuthenticatingInSpringSecurity(user);
             }
         }
+
         filterChain.doFilter(request, response);
     }
-
-    private void setHandlerExceptionResolver(HttpServletRequest request, HttpServletResponse response, String msg) {
-        handlerExceptionResolver.resolveException(request, response, null, new AuthException(msg));
-    }
-
-
     private String jwtTokenHeader(HttpServletRequest request) {
         var authorization = request.getHeader("Authorization");
         if (Optional.ofNullable(authorization).isPresent())

@@ -25,7 +25,7 @@
                 <postgres.port>5432</postgres.port>
                 <postgres.database>exam-auth</postgres.database>
                 <postgres.usr>postgres</postgres.usr>
-                <postgres.pwd></postgres.pwd>
+                <postgres.pwd>Naruto96@</postgres.pwd>
             </properties>
         </profile>
     </profiles>

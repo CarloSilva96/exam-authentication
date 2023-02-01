@@ -14,4 +14,6 @@ import java.util.Map;
 public class GlobalError {
     private String msgError;
     private Map<String, String> errors = new HashMap<>();
+
+
 }

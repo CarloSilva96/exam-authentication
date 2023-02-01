@@ -19,8 +19,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(Routes.ExamAuth.User.PATH)
-    public ResponseEntity<String> createUser(@RequestBody @Valid UserCreateDto userCreateDto) {
+    public ResponseEntity<Object> createUser(@RequestBody @Valid UserCreateDto userCreateDto) {
         userService.saveUser(userCreateDto);
-        return ResponseEntity.ok("Create user with successfully");
+        return ResponseEntity.ok().build();
     }
 }

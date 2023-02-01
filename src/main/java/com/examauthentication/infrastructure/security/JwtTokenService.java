@@ -34,7 +34,7 @@ public class JwtTokenService {
                     .withClaim("cpf", user.getCpf())
                     .withExpiresAt(expirationJwtToken())
                     .sign(algorithm);
-        } catch (JWTCreationException exception){
+        } catch (JWTCreationException exception) {
             throw new AuthException("Error generating token: ", exception);
         }
     }
@@ -44,7 +44,7 @@ public class JwtTokenService {
     }
 
 
-    public String getUserLogin(String jwtToken) {
+    public String getValidateTokenAndGetUserLogin(String jwtToken) throws JWTVerificationException {
         try {
             var algorithm = Algorithm.HMAC256(JWT_SECRET);
             return JWT.require(algorithm)
@@ -52,7 +52,7 @@ public class JwtTokenService {
                     .build()
                     .verify(jwtToken)
                     .getSubject();
-        } catch (JWTVerificationException e) {
+        } catch (Exception e) {
             return null;
         }
 
